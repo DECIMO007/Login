@@ -31,7 +31,6 @@ function Login() {
   return (
     <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
         <div className='bg-white p-3 rounded w-25'>
-          <h2>LOGIN PAGE</h2>
             <form onSubmit={handleSubmit}>
                 <div className='mb-3'>
                     <label htmlFor='name'>Username</label>
@@ -46,11 +45,7 @@ function Login() {
                  <button type='submit' className='btn btn-success w-100 rounded-0'>Login</button>
             </form>
             <button className='btn btn-default border w-100 bg-light'>Create Account</button>
-            {loginStatus === 'failure' && (
-          <div className='alert alert-danger mt-3' role='alert'>
-            Login failure.
-          </div>
-        )}
+           
         </div>
     </div>
   );
