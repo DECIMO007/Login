@@ -10,7 +10,6 @@ function loginApi(username, password) {
 }
 
 function* login(action) {
-  console.log('testlogin')
   const { username, password } = action.payload;
   try {
     const response = yield call(loginApi, username, password);

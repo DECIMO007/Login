@@ -8,7 +8,7 @@ function Login(props) {
   const [password, setPassword] = useState('');
   const [loginStatus, setLoginStatus] = useState('');
   const navigate = useNavigate();
-
+  
 
   const handleNameChange = (event) => {
     setUsername(event.target.value);
@@ -18,10 +18,10 @@ function Login(props) {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = async (event) => {
+  function* handleSubmit(event) {
     event.preventDefault();
     try {
-      await props.login(username, password);
+      yield props.login(username, password);
       localStorage.setItem('isLoggedIn', true);
       setLoginStatus('success');
       navigate('/Home');
