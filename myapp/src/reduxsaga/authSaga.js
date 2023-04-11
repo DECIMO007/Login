@@ -1,6 +1,5 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 import axios from 'axios';
-
 import { LOGIN, loginSuccess, loginFailure } from './authAction';
 
 function loginApi(username, password) {
@@ -11,6 +10,7 @@ function loginApi(username, password) {
 }
 
 function* login(action) {
+  console.log('testlogin')
   const { username, password } = action.payload;
   try {
     const response = yield call(loginApi, username, password);

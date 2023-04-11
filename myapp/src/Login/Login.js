@@ -18,20 +18,19 @@ function Login(props) {
     setPassword(event.target.value);
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    props.login(username, password)
-      .then(() => {
-        setLoginStatus('success');
-        navigate('/Home');
-      })
-      .catch(() => {
-        setLoginStatus('failure');
-      });
+    try {
+      await props.login(username, password);
+      localStorage.setItem('isLoggedIn', true);
+      setLoginStatus('success');
+      navigate('/Home');
+    } catch (error) {
+      setLoginStatus('failure');
+    }
   };
 
   if (props.user !== undefined) {
-    navigate('/Home');
     return null;
   }
 
@@ -74,11 +73,6 @@ function Login(props) {
         {loginStatus === 'failure' && (
           <div className="alert alert-danger mt-3" role="alert">
             Login failure.
-          </div>
-        )}
-        {loginStatus === 'success' && (
-          <div className="alert alert-success mt-3" role="alert">
-            Login successful.
           </div>
         )}
       </div>
