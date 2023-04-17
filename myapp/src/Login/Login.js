@@ -9,7 +9,7 @@ function Login(props) {
   const [loginStatus, setLoginStatus] = useState('');
   const navigate = useNavigate();
   
-
+  
   const handleNameChange = (event) => {
     setUsername(event.target.value);
   };
@@ -18,16 +18,15 @@ function Login(props) {
     setPassword(event.target.value);
   };
 
-  function* handleSubmit(event) {
+  const handleSubmit = async(event) => {
     event.preventDefault();
-    try {
-      yield props.login(username, password);
-      localStorage.setItem('isLoggedIn', true);
-      setLoginStatus('success');
-      navigate('/Home');
-    } catch (error) {
-      setLoginStatus('failure');
-    }
+    try{
+    props.login(username, password)
+        setLoginStatus('success');
+        navigate('/Home');
+      }catch(error){
+        setLoginStatus('failure');
+      };
   };
 
   if (props.user !== undefined) {
@@ -81,11 +80,11 @@ function Login(props) {
 }
 const mapStateToProps = (state) => {
   return {
-    user: state.auth !== undefined ? state.auth.user : undefined
+    user: state?.auth?.user
   };
 };
 
-const mapDispatchToProps = dispatch => {
+const mapDispatchToProps = (dispatch) => {
   return {
     login: (username, password) => dispatch(login(username, password))
   };
