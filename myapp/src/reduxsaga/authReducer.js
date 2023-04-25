@@ -1,4 +1,4 @@
-import { LOGIN_SUCCESS, LOGIN_FAILURE, LOGGED_IN, LOG_OUT } from "./authAction";
+import { LOGIN_SUCCESS, LOGIN_FAILURE, LOG_OUT,SET_USER } from "./authAction";
 
 const initialState = {
   user: null,
@@ -22,17 +22,15 @@ export default function authReducer(state = initialState, action) {
         error: action.payload,
         isLoggedIn: false,
       };
-      case LOGGED_IN:
-        return {
-          ...state,
-          isLoggedIn: true
-        };
       case LOG_OUT:
-        return {
-          ...state,
-          isLoggedIn: false
-        };
-
+        return initialState;
+      
+      case SET_USER:
+          return {
+            ...state,
+            user: action.payload,
+            isLoggedIn: true,
+          };
     default:
       return state;
   }

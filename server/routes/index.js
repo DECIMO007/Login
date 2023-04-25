@@ -12,6 +12,7 @@ router.use(
   );
 
 router.post('/login', auth.login)
+router.get('/checkSession', auth.checkSession)
 router.post('/signup', auth.signup)
 router.post('/logout', auth.logout)
 

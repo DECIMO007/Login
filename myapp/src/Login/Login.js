@@ -3,36 +3,36 @@ import { Link, useNavigate } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { login } from '../reduxsaga/authAction';
 
-function Login(props) {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [loginStatus, setLoginStatus] = useState('');
-  const navigate = useNavigate();
+  function Login(props) {
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [loginStatus, setLoginStatus] = useState('');
+    const navigate = useNavigate();
+    
+    
+    const handleNameChange = (event) => {
+      setUsername(event.target.value);
+    };
   
+    const handlePasswordChange = (event) => {
+      setPassword(event.target.value);
+    };
   
-  const handleNameChange = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
-
-  const handleSubmit = async(event) => {
-    event.preventDefault();
-    try{
-    props.login(username, password)
+    const handleSubmit = async(event) => {
+      event.preventDefault();
+      try{
+        await props.login(username, password)
         setLoginStatus('success');
-        navigate('/Home');
-      }catch(error){
+
+      } catch(error){
         setLoginStatus('failure');
       };
-  };
-
-  if (props.user !== undefined) {
-    return null;
-  }
-
+    };
+    
+    if (loginStatus === 'success') {
+      navigate('/Home');
+    }
+  
   return (
     <div className="d-flex justify-content-center align-items-center bg-primary vh-100">
       <div className="bg-white p-3 rounded w-25">
@@ -78,16 +78,9 @@ function Login(props) {
     </div>
   );
 }
-const mapStateToProps = (state) => {
-  return {
-    user: state?.auth?.user
-  };
-};
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (username, password) => dispatch(login(username, password))
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  login: (username, password) => dispatch(login(username, password)),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);

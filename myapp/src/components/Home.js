@@ -1,47 +1,45 @@
-import React, { useEffect } from "react";
-import "./Home.css";
-import { useNavigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { logout } from '../reduxsaga/authAction';
+import { useNavigate } from 'react-router-dom';
+import { logout, setUser } from '../reduxsaga/authAction';
 
-function Home(props) {
+function HomePage(props) {
+  const { setUser, logout } = props;
   const navigate = useNavigate();
 
   useEffect(() => {
-    if (props.isLoggedIn !== undefined && !props.isLoggedIn) {
-      navigate('/');
-    }
-  }, [props.isLoggedIn, navigate]);
+// Call checkSession() action creator when component mounts
+    setUser();
+  }, [setUser]);
 
   const handleLogout = () => {
-    props.logout()
-     try{
-        navigate('/');
-      }catch(error){
-        console.log(error);
-      };
+    logout();
+    navigate('/');
   };
 
   return (
-    <div className="Home-container">
-      <div className="Home-content">
-        WORLDWIDE WEBSITE
+    <div className="d-flex justify-content-center align-items-center bg-primary vh-100">
+      <div className="bg-white p-3 rounded w-25">
+        <h1>Welcome to Browser</h1>
+        <button
+          type="button"
+          className="btn btn-danger w-100 rounded-0"
+          onClick={handleLogout}
+        >
+          Logout
+        </button>
       </div>
-      <button onClick={handleLogout}>Logout</button>
     </div>
   );
 }
 
-const mapStateToProps = (state) => {
-  return {
-    isLoggedIn: state.auth ? state.auth.isLoggedIn : undefined
-  };
-};
+const mapStateToProps = (state) => ({
+  user: state?.auth?.user,
+});
 
-const mapDispatchToProps = (dispatch) => {
-  return {
-    logout: () => dispatch(logout())
-  };
-};
+const mapDispatchToProps = (dispatch) => ({
+  setUser: () => dispatch(setUser()),
+  logout: () => dispatch(logout()),
+});
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(HomePage);

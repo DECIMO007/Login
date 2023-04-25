@@ -17,6 +17,20 @@ const login = async(req,res)=>{
     return
 }
 
+const checkSession = async (req, res) => {
+  if (req.session.userId) {
+      res.status(200).send({
+          status: true,
+          userId: req.session.userId,
+      });
+  } else {
+      res.status(401).send({
+          status: false,
+          message: 'User not logged in',
+      });
+  }
+};
+
 const signup = async (req, res) => {
     const {username,password} = req.body
     try {
@@ -52,4 +66,4 @@ const signup = async (req, res) => {
        };
 
 
-module.exports = { login, signup, logout };
+module.exports = { login, signup, logout, checkSession };
